@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "166569277188",
+    "project_id": "summitup-ff8a1",
+    "storage_bucket": "summitup-ff8a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166569277188:android:ddab0abb3eb49368e28251",
+        "android_client_info": {
+          "package_name": "com.NoelShaji.summitup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166569277188-8679v2d45ou5tgs6et9sif1r7d3ulbka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyL6xJlm3DkLhwfS2dM9L-s0srZc1Bhf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166569277188-8679v2d45ou5tgs6et9sif1r7d3ulbka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
