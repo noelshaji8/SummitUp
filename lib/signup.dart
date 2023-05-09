@@ -27,7 +27,7 @@ class _SignupState extends State<Signup> {
             Container(
               //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
               width: 500,
-              height: 720,
+              height: 700,
               decoration: const BoxDecoration(
                   color: Color(0xFFC1CDCE),
                   //borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -106,7 +106,7 @@ class _SignupState extends State<Signup> {
                           fillColor: Colors.white70,
                         ),
                       )),
-                  Container(
+                 /* Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
                       width: MediaQuery.of(context).size.width / 1.1,
                       child: TextField(
@@ -129,7 +129,7 @@ class _SignupState extends State<Signup> {
                           hintText: "Phone Number",
                           fillColor: Colors.white70,
                         ),
-                      )),
+                      )),*/
                   Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
                       width: MediaQuery.of(context).size.width / 1.1,
