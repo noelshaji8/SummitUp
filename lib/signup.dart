@@ -26,15 +26,12 @@ class _SignupState extends State<Signup> {
           children: <Widget>[
             Container(
               //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              width: 500,
-              height: 700,
+              width: MediaQuery.of(context).size.width / 1,
+              height: MediaQuery.of(context).size.height / 1,
               decoration: const BoxDecoration(
                   color: Color(0xFFC1CDCE),
                   //borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  image: DecorationImage(
-                    image: AssetImage('assets/text.jpg'),
-                    fit: BoxFit.cover,
-                  ),
+                  
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,

@@ -199,14 +199,15 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
           child: Stack(
             children: [
               Container(
-                height: double.infinity,
-                width: double.infinity,
+                height: MediaQuery.of(context).size.height / 1,
+                width: MediaQuery.of(context).size.width / 1,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,

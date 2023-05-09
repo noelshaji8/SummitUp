@@ -5,7 +5,7 @@ import 'signup.dart';
 import 'homepage.dart';
 import 'outputpage.dart';
 import 'package:firebase_core/firebase_core.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +17,22 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  /*Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
     );
+  }*/
+
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+        designSize: Size(360, 690),
+        minTextAdapt: true,
+        builder: (context, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: LoginScreen(),
+          );
+        });
   }
 }
