@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               "/": (context) => LoginScreen(),
               "/first": (context) => Signup(),
               "/second":(context) => Homepage(),
-              //"/third":(context) => Outputpage()
+              "/third":(context) => Outputpage()
             },
             useInheritedMediaQuery: false,
             debugShowCheckedModeBanner: false,

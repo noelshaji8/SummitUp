@@ -54,12 +54,12 @@ class _HomepageState extends State<Homepage> {
               onTap: () => {Navigator.of(context).pop()},
             ),*/
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.history),
               title: Text('History'),
               onTap: () => {Navigator.of(context).pop()},
             ),
             ListTile(
-              leading: Icon(Icons.border_color),
+              leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () => {Navigator.of(context).pop()},
             ),
@@ -68,8 +68,8 @@ class _HomepageState extends State<Homepage> {
               title: Text('Logout'),
               onTap: () {
                 _auth.signOut();
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pushNamed(context, '/');
+                
               },
             ),
           ],
@@ -87,7 +87,19 @@ class _HomepageState extends State<Homepage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            TextFormField(
+            SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+              scrollDirection: Axis.vertical,
+              child: TextField(
+                maxLines: 15,
+                decoration: InputDecoration(
+                  hintText: 'Enter text',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+
+            /*TextFormField(
               decoration: InputDecoration(
                 hintText: 'Enter text, url here',
               ),
@@ -96,13 +108,14 @@ class _HomepageState extends State<Homepage> {
                   var _text = text;
                 });
               },
-            ),
+            ),*/
             SizedBox(height: 16.0),
             MaterialButton(
               color: Colors.blue,
               textColor: Colors.white,
               child: Text('Submit'),
               onPressed: () {
+                Navigator.pushNamed(context, '/third');
                 // Handle submit button press
               },
             ),

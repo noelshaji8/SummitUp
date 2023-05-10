@@ -36,54 +36,12 @@ class _OutputpageState extends State<Outputpage> {
   //sidemenu
   Widget build(BuildContext context) {
     return Scaffold(
-      /*    drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'Hi there!',
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/images/cover.jpg'),
-                ),
-              ),
-            ),
-            
-            ListTile(
-              leading: Icon(Icons.verified_user),
-              title: Text('Profile'),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('History'),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            ListTile(
-              leading: Icon(Icons.border_color),
-              title: Text('Settings'),
-              onTap: () => {Navigator.of(context).pop()},
-            ),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
-              onTap: () {
-                _auth.signOut();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ),
-*/
-      //sidemenu end
-
       appBar: AppBar(
+        leading: BackButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/second');
+          },
+        ),
         centerTitle: true,
         title: Text('SummitUp'),
       ),
@@ -92,27 +50,24 @@ class _OutputpageState extends State<Outputpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('the summarized text'),
+            Text('The summarized text:'),
             SizedBox(height: 13),
             SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
               scrollDirection: Axis.vertical,
-              child: TextFormField(
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
+              child: TextField(
+                maxLines: 15,
+                decoration: InputDecoration(
+                  hintText: 'text',
+                  border: OutlineInputBorder(),
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    var _text = text;
-                  });
-                },
               ),
             ),
             SizedBox(height: 16.0),
             MaterialButton(
               color: Colors.blue,
               textColor: Colors.white,
-              child: Text('Submit'),
+              child: Text('Save to History'),
               onPressed: () {
                 // Handle submit button press
               },
