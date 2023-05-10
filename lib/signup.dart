@@ -21,13 +21,16 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       body: SafeArea(
           child: Container(
+            
         child: Column(
+          
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               //padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              width: MediaQuery.of(context).size.width / 1,
-              height: MediaQuery.of(context).size.height / 1,
+              
               decoration: const BoxDecoration(
                   color: Color(0xFFC1CDCE),
                   //borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -192,7 +195,7 @@ class _SignupState extends State<Signup> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (newUser != null) {
-                            Navigator.pushNamed(context, LoginScreen.id);
+                            Navigator.pushNamed(context, '/');
                           }
                         } catch (e) {
                           print(e);

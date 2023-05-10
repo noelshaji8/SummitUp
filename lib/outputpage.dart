@@ -3,13 +3,13 @@ import 'package:summitup/loginscreen.dart';
 import 'package:summitup/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Homepage extends StatefulWidget {
-  static const String id = 'outputpage';
+class Outputpage extends StatefulWidget {
+  //static const String id = 'outputpage';
   @override
-  _HomepageState createState() => _HomepageState();
+  _OutputpageState createState() => _OutputpageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _OutputpageState extends State<Outputpage> {
   //final _auth = FirebaseAuth.instance;
   //late User loggedInUser;
 

@@ -26,12 +26,20 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: Size(360, 690),
+        
         minTextAdapt: true,
         builder: (context, child) {
           return MaterialApp(
+            initialRoute: "/",
+            routes: {
+              "/": (context) => LoginScreen(),
+              "/first": (context) => Signup(),
+              "/second":(context) => Homepage(),
+              //"/third":(context) => Outputpage()
+            },
+            useInheritedMediaQuery: false,
             debugShowCheckedModeBanner: false,
-            home: LoginScreen(),
+            
           );
         });
   }

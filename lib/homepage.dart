@@ -3,7 +3,7 @@ import 'package:summitup/loginscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Homepage extends StatefulWidget {
-  static const String id = 'homepage';
+  //static const String id = 'homepage';
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -46,18 +46,13 @@ class _HomepageState extends State<Homepage> {
               ),
               decoration: BoxDecoration(
                 color: Colors.green,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/images/cover.jpg'),
-                ),
               ),
             ),
-            
-            ListTile(
+            /*ListTile(
               leading: Icon(Icons.verified_user),
               title: Text('Profile'),
               onTap: () => {Navigator.of(context).pop()},
-            ),
+            ),*/
             ListTile(
               leading: Icon(Icons.settings),
               title: Text('History'),
@@ -73,6 +68,7 @@ class _HomepageState extends State<Homepage> {
               title: Text('Logout'),
               onTap: () {
                 _auth.signOut();
+                Navigator.pop(context);
                 Navigator.pop(context);
               },
             ),
@@ -116,4 +112,3 @@ class _HomepageState extends State<Homepage> {
     );
   }
 }
-    

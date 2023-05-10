@@ -6,7 +6,7 @@ import 'package:summitup/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String id = 'loginscreen';
+  //static const String id = 'loginscreen';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
           try {
           final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
           if (user != null) {
-            Navigator.pushNamed(context, Homepage.id);
+            Navigator.pushNamed(context, '/second');
           }
           }
           catch (e) {
@@ -182,11 +182,12 @@ class _LoginScreenState extends State<LoginScreen> {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () => {
-          Navigator.push(
+          /*Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => const Signup(),
-              )),
+              ))*/
+              Navigator.pushNamed(context, '/first')
         },
         child: Text(
           "   Don't have an account?\nCreate a new account here.",
