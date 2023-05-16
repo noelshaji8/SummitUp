@@ -17,12 +17,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  /*Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
-    );
-  }*/
+  
 
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -35,7 +30,7 @@ class MyApp extends StatelessWidget {
               "/": (context) => LoginScreen(),
               "/first": (context) => Signup(),
               "/second":(context) => Homepage(),
-              "/third":(context) => Outputpage()
+              //"/third":(context) => Outputpage()
             },
             useInheritedMediaQuery: false,
             debugShowCheckedModeBanner: false,

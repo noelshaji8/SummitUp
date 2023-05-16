@@ -101,52 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildForgotP() {
-    return Container(
-      padding: EdgeInsets.all(4),
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () => {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const forgotPassword(),
-              )),
-        },
-        child: Text(
-          "Forgot Password?",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
 
-  Widget buildRemember() {
-    return Container(
-      height: 20,
-      child: Row(
-        children: [
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: false,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  isRememberMe = value;
-                });
-              },
-            ),
-          ),
-          Text(
-            "Remember Me",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          )
-        ],
-      ),
-    );
-  }
 
   Widget submitBt() {
     return Container(
@@ -238,8 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       buildEmail(),
                       SizedBox(height: 20),
                       buildPassword(),
-                      buildForgotP(),
-                      buildRemember(),
+                      //buildForgotP(),
+                      //buildRemember(),
                       submitBt(),
                       newaccBt()
                     ],

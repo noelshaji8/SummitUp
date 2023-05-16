@@ -106,30 +106,7 @@ class _SignupState extends State<Signup> {
                           fillColor: Colors.white70,
                         ),
                       )),
-                 /* Container(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      child: TextField(
-                        onChanged: (value) {
-                          number = value;
-                        },
-                        cursorColor: Colors.black,
-                        decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          filled: true,
-                          hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Phone Number",
-                          fillColor: Colors.white70,
-                        ),
-                      )),*/
+                 
                   Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
                       width: MediaQuery.of(context).size.width / 1.1,
@@ -155,35 +132,7 @@ class _SignupState extends State<Signup> {
                           fillColor: Colors.white70,
                         ),
                       )),
-                  /*Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
-                    width: MediaQuery.of(context).size.width / 1.1,
-                    child: TextField(
-                      
-            onChanged:(value) {
-              email = value;
-              
-            },
-                      cursorColor: Colors.black,
-                      obscureText: true,
-                      decoration: new InputDecoration(
-                        border: new OutlineInputBorder(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                            borderSide:
-                                BorderSide(color: Colors.brown.shade900)),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.brown.shade900)),
-
-                        filled: true,
-                        hintStyle: new TextStyle(color: Colors.grey[800]),
-                        hintText: "Confirm Password",
-                        fillColor: Colors.white70,
-                      ),
-                    ),
-                  ),*/
+                  
                   Container(
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: MaterialButton(

@@ -1,35 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:summitup/loginscreen.dart';
-import 'package:summitup/homepage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class Outputpage extends StatefulWidget {
-  //static const String id = 'outputpage';
+  String response = "";
+  
+  String text;
+  Outputpage({required this.text});
+
   @override
   _OutputpageState createState() => _OutputpageState();
 }
 
 class _OutputpageState extends State<Outputpage> {
-  //final _auth = FirebaseAuth.instance;
-  //late User loggedInUser;
 
-  @override
-  /*void initState() {
+  late Future newData;
+  void initState() {
+    // TODO: implement initState
     super.initState();
-    getCurrentUser();
+    newData = sum();
   }
 
-  void getCurrentUser() async {
-    try {
-      final user = await _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
-      }
-    } catch (e) {
-      print(e);
+  sum() async {
+    
+
+    final response =
+        await http.post(Uri.parse('https://portal.ayfie.com/api/summarize'),
+            headers: {
+              'X-API-KEY': 'NNHVhmMOGhaOpMMHdAhRKVQFgDTLKGspivkVbppNRobJHnTokv',
+              'accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode({
+              'language': 'auto',
+              'text': widget.text,
+              'min_length': 5,
+              'max_length': 100,
+            }));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['result'];
+      print(data);
+      return data;
+
+      //widget.newdata = data;
+      //print(widget.newdata);
+    } else {
+      print(response.statusCode);
+      print(response.body);
     }
-  }*/
+  }
 
   @override
 
@@ -50,19 +71,25 @@ class _OutputpageState extends State<Outputpage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('The summarized text:'),
+            Text("Summarized text"),
             SizedBox(height: 13),
             SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              scrollDirection: Axis.vertical,
-              child: TextField(
-                maxLines: 15,
-                decoration: InputDecoration(
-                  hintText: 'text',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                scrollDirection: Axis.vertical,
+                child: FutureBuilder(
+                  
+                  future: newData,
+                  builder: (context, snapshot) {
+                    return TextField(
+                      maxLines: 15,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      controller:
+                          TextEditingController(text: snapshot.data.toString()),
+                    );
+                  },
+                )),
             SizedBox(height: 16.0),
             MaterialButton(
               color: Colors.blue,

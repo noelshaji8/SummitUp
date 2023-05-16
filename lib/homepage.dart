@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:summitup/loginscreen.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:summitup/outputpage.dart';
 
 class Homepage extends StatefulWidget {
+  late String text;
   //static const String id = 'homepage';
   @override
   _HomepageState createState() => _HomepageState();
@@ -48,11 +53,7 @@ class _HomepageState extends State<Homepage> {
                 color: Colors.green,
               ),
             ),
-            /*ListTile(
-              leading: Icon(Icons.verified_user),
-              title: Text('Profile'),
-              onTap: () => {Navigator.of(context).pop()},
-            ),*/
+            
             ListTile(
               leading: Icon(Icons.history),
               title: Text('History'),
@@ -69,7 +70,6 @@ class _HomepageState extends State<Homepage> {
               onTap: () {
                 _auth.signOut();
                 Navigator.pushNamed(context, '/');
-                
               },
             ),
           ],
@@ -91,6 +91,9 @@ class _HomepageState extends State<Homepage> {
               padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
               scrollDirection: Axis.vertical,
               child: TextField(
+                onChanged: (value) {
+                  widget.text = value;
+                },
                 maxLines: 15,
                 decoration: InputDecoration(
                   hintText: 'Enter text',
@@ -98,24 +101,16 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-
-            /*TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Enter text, url here',
-              ),
-              onChanged: (text) {
-                setState(() {
-                  var _text = text;
-                });
-              },
-            ),*/
             SizedBox(height: 16.0),
             MaterialButton(
               color: Colors.blue,
               textColor: Colors.white,
               child: Text('Submit'),
               onPressed: () {
-                Navigator.pushNamed(context, '/third');
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Outputpage(text: widget.text);
+                }));
+                
                 // Handle submit button press
               },
             ),

@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^4.5.0
   cloud_firestore: ^4.6.0
   flutter_screenutil: ^5.7.0
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:
