@@ -13,12 +13,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
   bool? isRememberMe = false;
   final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
 
   Widget buildEmail() {
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,9 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ]),
           height: 52,
           child: TextField(
-            onChanged:(value) {
+            onChanged: (value) {
               email = value;
-              
             },
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Colors.black87),
@@ -101,8 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
   Widget submitBt() {
     return Container(
       padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
@@ -111,12 +112,12 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: 120,
         onPressed: () async {
           try {
-          final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-          if (user != null) {
-            Navigator.pushNamed(context, '/second');
-          }
-          }
-          catch (e) {
+            final user = await _auth.signInWithEmailAndPassword(
+                email: email, password: password);
+            if (user != null) {
+              Navigator.pushNamed(context, '/4');
+            }
+          } catch (e) {
             print(e);
           }
         },
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
               MaterialPageRoute(
                 builder: (context) => const Signup(),
               ))*/
-              Navigator.pushNamed(context, '/first')
+          Navigator.pushNamed(context, '/3')
         },
         child: Text(
           "   Don't have an account?\nCreate a new account here.",
@@ -154,57 +155,61 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          child: Stack(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height / 1,
-                width: MediaQuery.of(context).size.width / 1,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color.fromARGB(102, 152, 207, 231),
-                      Color.fromARGB(153, 151, 207, 231),
-                      Color.fromARGB(204, 155, 211, 236),
-                      Color.fromARGB(255, 151, 205, 228),
-                    ],
-                  ),
-                ),
-                child: Container(
-                  
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 40),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Sign In',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+    
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle.light,
+            child: GestureDetector(
+              child: Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 1,
+                    width: MediaQuery.of(context).size.width / 1,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Color.fromARGB(102, 152, 207, 231),
+                          Color.fromARGB(153, 151, 207, 231),
+                          Color.fromARGB(204, 155, 211, 236),
+                          Color.fromARGB(255, 151, 205, 228),
+                        ],
                       ),
-                      SizedBox(height: 70),
-                      buildEmail(),
-                      SizedBox(height: 20),
-                      buildPassword(),
-                      //buildForgotP(),
-                      //buildRemember(),
-                      submitBt(),
-                      newaccBt()
-                    ],
-                  ),
-                ),
-              )
-            ],
+                    ),
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sign In',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 70),
+                          buildEmail(),
+                          SizedBox(height: 20),
+                          buildPassword(),
+                          //buildForgotP(),
+                          //buildRemember(),
+                          submitBt(),
+                          newaccBt()
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        )));
   }
 }

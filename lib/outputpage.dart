@@ -5,9 +5,10 @@ import 'package:http/http.dart' as http;
 
 class Outputpage extends StatefulWidget {
   String response = "";
+  double currentSliderValue;
   
   String text;
-  Outputpage({required this.text});
+  Outputpage({required this.text,required this.currentSliderValue});
 
   @override
   _OutputpageState createState() => _OutputpageState();
@@ -36,7 +37,7 @@ class _OutputpageState extends State<Outputpage> {
               'language': 'auto',
               'text': widget.text,
               'min_length': 5,
-              'max_length': 100,
+              'max_length': widget.currentSliderValue,
             }));
 
     if (response.statusCode == 200) {

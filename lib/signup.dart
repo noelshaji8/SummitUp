@@ -10,6 +10,9 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  Future<bool> _onWillPop() async {
+    return false; //<-- SEE HERE
+  }
   final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
@@ -18,8 +21,12 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+      
           child: Container(
             
         child: Column(
@@ -144,7 +151,7 @@ class _SignupState extends State<Signup> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (newUser != null) {
-                            Navigator.pushNamed(context, '/');
+                            Navigator.pushNamed(context, '/2');
                           }
                         } catch (e) {
                           print(e);
@@ -166,6 +173,6 @@ class _SignupState extends State<Signup> {
           ],
         ),
       )),
-    );
+    ));
   }
 }
