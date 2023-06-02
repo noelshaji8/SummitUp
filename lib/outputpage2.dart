@@ -1,13 +1,58 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:http/http.dart' as http;
 
 class Outputpage2 extends StatefulWidget {
-  const Outputpage2({super.key});
+  String response = "";
+  double currentSliderValue;
+  String text;
+  Outputpage2({super.key, required this.text, required this.currentSliderValue});
 
   @override
   State<Outputpage2> createState() => _Outputpage2State();
 }
 
 class _Outputpage2State extends State<Outputpage2> {
+  late String dbdata;
+  late DatabaseReference dbRef; 
+  late Future newData;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dbRef = FirebaseDatabase.instance.ref().child('Students');
+    newData = sum();
+  }
+
+  sum() async {
+    final response =
+        await http.post(Uri.parse('https://portal.ayfie.com/api/summarize'),
+            headers: {
+              'X-API-KEY': 'NIAvbRwSJGRsLYBpwSwbwVYGnUYWxSLHmDMswngbZLvvRkpLJl',
+              'accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode({
+              'language': 'en',
+              'text': widget.text,
+              'min_length': 1,
+              'max_length': widget.currentSliderValue,
+            }));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body)['result'];
+      print(data);
+      return data;
+
+      //widget.newdata = data;
+      //print(widget.newdata);
+    } else {
+      print(response.statusCode);
+      print(response.body);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var fem = MediaQuery.of(context);
@@ -49,17 +94,13 @@ class _Outputpage2State extends State<Outputpage2> {
                   ),
                 ),
               ),
-
               Positioned(
                 left: 0.03 * fem.size.width,
                 top: 0.05 * fem.size.height,
                 child: BackButton(
-                    color: Color.fromARGB(255, 231, 226, 226),
-                  ),
+                  color: Color.fromARGB(255, 231, 226, 226),
                 ),
-                  
-              
-
+              ),
               Positioned(
                 // rectangle3jDP (2:4)
                 left: 0.04 * fem.size.width,
@@ -77,38 +118,47 @@ class _Outputpage2State extends State<Outputpage2> {
                       width: 0.40 * fem.size.width,
                       height: 0.4 * fem.size.height,
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(17),
-                          border: Border.all(
-                              color: Color.fromARGB(255, 241, 237, 237)),
-                          color: Color(0xff13191b),
-                        ),
-                        child: TextField(
-                          // onChanged: (value) {
-                          //   widget.text = value;
-                          // },
-                          style: TextStyle(color: Color.fromARGB(255, 245, 243, 243)),
-                          maxLines: 15,
-                          decoration: InputDecoration(
-                            hintText: 'Enter text',
-                            border: OutlineInputBorder(
-                              gapPadding: 1
-                            ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(17),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 241, 237, 237)),
+                            color: Color(0xff13191b),
                           ),
-                        ),
-                      ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: FutureBuilder(
+                              initialData: "",
+                              future: newData,
+                              builder: (context, snapshot) {
+                                dbdata = snapshot.data.toString();
+                                return TextField(
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 233, 227, 227)),
+                                  maxLines: 15,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  controller: TextEditingController(
+                                      text: snapshot.data.toString()),
+                                );
+                              },
+                            ),
+                          )),
                     ),
                   ),
                 ),
               ),
-              
               Positioned(
                 bottom: fem.size.height * 0.073,
                 child: MaterialButton(
                   height: 50,
                   minWidth: 120,
                   onPressed: () {
-                    Navigator.pushNamed(context, '');
+                  Map<String, dynamic> students = {
+                    'txt': dbdata,
+                    'value': widget.currentSliderValue,
+                    };
+                    dbRef.push().set(students);
                   },
                   color: Color(0xff3d0d35),
                   shape: RoundedRectangleBorder(
@@ -127,4 +177,3 @@ class _Outputpage2State extends State<Outputpage2> {
     );
   }
 }
-

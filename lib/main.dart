@@ -6,7 +6,6 @@ import 'loginscreen.dart';
 import 'forgotp.dart';
 import 'signup.dart';
 import 'tutpage.dart';
-import 'homepage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'outputpage2.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return ScreenUtilInit(
         minTextAdapt: true,
         builder: (context, child) {
@@ -34,8 +32,8 @@ class MyApp extends StatelessWidget {
               "/2": (context) => LoginScreen(),
               "/3": (context) => Signup(),
               "/4": (context) => Homepage2(),
-              "/5":(context) => Outputpage2(),
-              "/6":(context) => History()
+              //"/5":(context) => Outputpage2(),
+              "/6": (context) => History()
             },
             useInheritedMediaQuery: false,
             debugShowCheckedModeBanner: false,
