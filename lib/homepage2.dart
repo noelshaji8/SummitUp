@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:summitup/loginscreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
+
 import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -10,8 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:summitup/outputpage2.dart';
 
 class Homepage2 extends StatefulWidget {
-  
-  
   double currentSliderValue = 0;
 
   @override
@@ -22,7 +22,12 @@ class _Homepage2State extends State<Homepage2> {
   Future<bool> _onWillPop() async {
     return false; //<-- SEE HERE
   }
-  late String text;
+
+  //late String text;
+  //late String url;
+  dynamic selectedfile;
+
+  String? filebttext = 'Files';
   //late DatabaseReference dbRef;
 
   final _auth = FirebaseAuth.instance;
@@ -32,7 +37,7 @@ class _Homepage2State extends State<Homepage2> {
   void initState() {
     super.initState();
     getCurrentUser();
-     //dbRef = FirebaseDatabase.instance.ref().child('Students');
+    //dbRef = FirebaseDatabase.instance.ref().child('Students');
   }
 
   void getCurrentUser() async {
@@ -47,21 +52,27 @@ class _Homepage2State extends State<Homepage2> {
     }
   }
 
-  void pickFile() async {
-    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
+  Future pickFile() async {
+    final result = await FilePicker.platform.pickFiles();
 
-    // if no file is picked
-    if (result == null) return;
+    if (result != null) {
+      PlatformFile file = await result.files.first;
+      String? filepath = file.path;
 
-    // we get the file from result object
-    final file = result.files.first;
+      print(filepath);
 
-    openFile(file);
+      setState(() {
+        selectedfile = filepath;
+        filebttext = file.name;
+      });
+    } else {
+      print('no file selected');
+    }
   }
 
-  void openFile(PlatformFile file) {
-    OpenFile.open(file.path);
-  }
+  // void openFile(PlatformFile file) {
+  //   OpenFile.open(file.path);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -143,15 +154,17 @@ class _Homepage2State extends State<Homepage2> {
                               color: Color(0xff13191b),
                             ),
                             child: TextField(
-                              onChanged: (value) {
-                            text = value;
-                          },
+                              // onChanged: (value) {
+                              //   text = value;
+                              // },
                               style: TextStyle(
                                   color: Color.fromARGB(255, 245, 243, 243)),
                               maxLines: 15,
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(12),
                                 hintText: 'Enter text',
-                                border: OutlineInputBorder(gapPadding: 1),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(17)),
                               ),
                             ),
                           ),
@@ -171,16 +184,19 @@ class _Homepage2State extends State<Homepage2> {
                             color: Color.fromARGB(225, 106, 102, 102)),
                         child: TextField(
                           // onChanged: (value) {
-                          //   widget.text = value;
+                          //   url = value;
                           // },
-
                           style: TextStyle(
                               color: Color.fromARGB(255, 245, 243, 243)),
                           keyboardType: TextInputType.url,
                           maxLines: 1,
                           decoration: InputDecoration(
+                            contentPadding:
+                                EdgeInsets.only(bottom: 3, left: 10),
+                            isCollapsed: false,
                             hintText: 'Enter url',
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(17)),
                           ),
                         ),
                       ),
@@ -216,7 +232,10 @@ class _Homepage2State extends State<Homepage2> {
                           ),
                         ),
                         SizedBox(width: fem.size.width * 0.075),
-                        MaterialButton(
+                        SizedBox(
+                          width: 0.38 * fem.size.width,
+                          height: 0.088 * fem.size.height,
+                          child: MaterialButton(
                           color: Color(0xff3d0d35),
                           onPressed: () {
                             pickFile();
@@ -227,8 +246,13 @@ class _Homepage2State extends State<Homepage2> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Center(
+                              
                             child: Text(
-                              'Files',
+                              
+                              '$filebttext',
+                              maxLines: 1,
+                              
+                              overflow: TextOverflow.fade,
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w400,
@@ -236,7 +260,8 @@ class _Homepage2State extends State<Homepage2> {
                               ),
                             ),
                           ),
-                        ),
+                        ),)
+                        
                       ],
                     ),
                   ),
@@ -270,24 +295,39 @@ class _Homepage2State extends State<Homepage2> {
                       height: 50,
                       minWidth: 120,
                       onPressed: () {
+                        // if (selectedfile == null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
                               return Outputpage2(
-                                  text: text,
-                                  currentSliderValue: widget.currentSliderValue);
-                                  
+                                  selectedfile: selectedfile,
+                                  //url: url,
+                                  //text: text,
+                                  currentSliderValue:
+                                      widget.currentSliderValue);
                             },
                           ),
                         );
-                        
-                    // Map<String, dynamic> students = {
-                    // 'txt': text,
-                    // 'value': widget.currentSliderValue,
-                    // };
-                    // dbRef.push().set(students);
-                  
+                        // } else {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) {
+                        //         return Outputpage2(
+                        //             selectedfile: selectedfile,
+                        //             currentSliderValue:
+                        //                 widget.currentSliderValue);
+                        //       },
+                        //     ),
+                        //   );
+                        // }
+
+                        // Map<String, dynamic> students = {
+                        // 'txt': text,
+                        // 'value': widget.currentSliderValue,
+                        // };
+                        // dbRef.push().set(students);
                       },
                       color: Color(0xff3d0d35),
                       shape: RoundedRectangleBorder(

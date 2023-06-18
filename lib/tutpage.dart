@@ -61,18 +61,18 @@ class _TutpageState extends State<Tutpage> {
                       decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
                           borderRadius: BorderRadius.circular(30),
-                          color: Color.fromARGB(255, 35, 33, 33)),
+                          color: Color.fromARGB(255, 30, 29, 29)),
                     )),
               ),
             ),
             Positioned(
               // rectangle2S3q (1:4)
-              left: fem.size.width / 2 - 85,
-              top: fem.size.height * 0.528,
+              left: fem.size.width / 2 - 35,
+              top: fem.size.height * 0.597,
               child: const Align(
                 child: SizedBox(
-                  width: 170,
-                  height: 170,
+                  width: 70,
+                  height: 70,
 
                   // decoration: BoxDecoration(
                   //   shape: BoxShape.circle,
@@ -84,6 +84,7 @@ class _TutpageState extends State<Tutpage> {
                   // width: 50,
                   // height: 50,
                   child: Image(
+                    fit: BoxFit.cover,
                     image: AssetImage('images/logo1.png'),
                   ),
                 ),
@@ -112,7 +113,7 @@ class _TutpageState extends State<Tutpage> {
             Positioned(
               // neverforgettheimportantstuffkM (2:21)
               left: fem.size.width / 2 - 100,
-              bottom: 0.19 * fem.size.height,
+              bottom: 0.185 * fem.size.height,
               child: Align(
                 child: SizedBox(
                   width: 200,
@@ -141,7 +142,7 @@ class _TutpageState extends State<Tutpage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/2');
                   },
-                  color: Color.fromARGB(255, 191, 255, 214),
+                  color: Color.fromARGB(255, 239, 236, 236),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: const Text("Get Started",

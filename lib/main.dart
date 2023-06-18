@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:summitup/homepage2.dart';
 import 'history.dart';
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'loginscreen.dart';
 import 'forgotp.dart';
 import 'signup.dart';
@@ -12,10 +12,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
+  
+
   runApp(MyApp());
+  FlutterNativeSplash.remove();
 }
+
+// Future initialization(BuildContext? context) async {
+//   await Future.delayed(Duration(seconds: 3));
+//}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,7 +34,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         builder: (context, child) {
           return MaterialApp(
-            initialRoute: "/1",
+            initialRoute: '/1',
             routes: {
               "/1": (context) => Tutpage(),
               "/2": (context) => LoginScreen(),

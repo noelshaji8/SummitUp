@@ -1,61 +1,92 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Outputpage2 extends StatefulWidget {
+  
   String response = "";
   double currentSliderValue;
-  String text;
-  Outputpage2({super.key, required this.text, required this.currentSliderValue});
+  //late String text;
+  dynamic selectedfile;
+  //late String url;
+  Outputpage2({
+    super.key,
+    required this.selectedfile,
+    //required this.text,
+    required this.currentSliderValue,
+    //required this.url,
+  });
 
   @override
   State<Outputpage2> createState() => _Outputpage2State();
 }
 
 class _Outputpage2State extends State<Outputpage2> {
+  
   late String dbdata;
-  late DatabaseReference dbRef; 
+  String user = FirebaseAuth.instance.currentUser!.email!;
+  bool showSpinner = false;
+  late DatabaseReference dbRef;
   late Future newData;
   void initState() {
     // TODO: implement initState
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child('Students');
+    dbRef = FirebaseDatabase.instance.ref().child(user);
+
     newData = sum();
   }
 
-  sum() async {
-    final response =
-        await http.post(Uri.parse('https://portal.ayfie.com/api/summarize'),
-            headers: {
-              'X-API-KEY': 'NIAvbRwSJGRsLYBpwSwbwVYGnUYWxSLHmDMswngbZLvvRkpLJl',
-              'accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: jsonEncode({
-              'language': 'en',
-              'text': widget.text,
-              'min_length': 1,
-              'max_length': widget.currentSliderValue,
-            }));
+  Future sum() async {
+    setState(() {
+      showSpinner = true;
+    });
+    dynamic currentS = widget.currentSliderValue.toInt();
+    String filepath = widget.selectedfile;
+
+    Uri url = Uri.parse('https://api.meaningcloud.com/summarization-1.0');
+
+    var request = await http.MultipartRequest('POST', url);
+
+    request.fields['key'] = '0c531a73c44da7b8dd4de50ed56c6462';
+    request.fields['lang'] = 'auto';
+    //request.fields['txt'] = widget.text;
+    //request.fields['url'] = widget.url;
+    request.files.add(await http.MultipartFile.fromPath(
+      'doc',
+      await filepath,
+    ));
+    request.fields['limit'] = '$currentS';
+
+    var response = await request.send();
+    var responsebody = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body)['result'];
+      setState(() {
+        showSpinner = false;
+      });
+      var data = jsonDecode(responsebody)['summary'];
       print(data);
       return data;
-
-      //widget.newdata = data;
-      //print(widget.newdata);
     } else {
+      print('failed');
       print(response.statusCode);
-      print(response.body);
+      print(responsebody);
+      setState(() {
+        showSpinner = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var fem = MediaQuery.of(context);
+    
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -131,16 +162,34 @@ class _Outputpage2State extends State<Outputpage2> {
                               future: newData,
                               builder: (context, snapshot) {
                                 dbdata = snapshot.data.toString();
-                                return TextField(
-                                  style: TextStyle(
-                                    color: Color.fromARGB(255, 233, 227, 227)),
-                                  maxLines: 15,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  controller: TextEditingController(
-                                      text: snapshot.data.toString()),
-                                );
+
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return TextField(
+                                    readOnly: true,
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 233, 227, 227)),
+                                    maxLines: 16,
+                                    decoration: InputDecoration(
+
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(17)),
+                                    ),
+                                    controller: TextEditingController(
+                                        text: snapshot.data.toString()),
+                                  );
+                                } else {
+                                  return const Align(child: CircularProgressIndicator(),);
+                                     
+                                    
+                                  
+
+                                  //                          showDialog(context: context, builder: (context) {
+                                  //   return Center(child: CircularProgressIndicator());
+                                  // },);
+                                  //return Align(child: CircularProgressIndicator(),);
+                                }
                               },
                             ),
                           )),
@@ -154,11 +203,12 @@ class _Outputpage2State extends State<Outputpage2> {
                   height: 50,
                   minWidth: 120,
                   onPressed: () {
-                  Map<String, dynamic> students = {
-                    'txt': dbdata,
-                    'value': widget.currentSliderValue,
+                    Map<String, dynamic> sumtext = {
+                      'txt': dbdata,
+                      'value': widget.currentSliderValue,
+                      'uid': FirebaseAuth.instance.currentUser!.uid,
                     };
-                    dbRef.push().set(students);
+                    dbRef.push().set(sumtext);
                   },
                   color: Color(0xff3d0d35),
                   shape: RoundedRectangleBorder(

@@ -153,6 +153,7 @@ class _SignupState extends State<Signup> {
                           if (newUser != null) {
                             Navigator.pushNamed(context, '/2');
                           }
+                          
                         } catch (e) {
                           print(e);
                         }
