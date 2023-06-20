@@ -77,9 +77,7 @@ class _Homepage2State extends State<Homepage2> {
     }
   }
 
-  // void openFile(PlatformFile file) {
-  //   OpenFile.open(file.path);
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +190,7 @@ class _Homepage2State extends State<Homepage2> {
                     top: 0.52 * fem.size.height,
                     child: SizedBox(
                       width: 0.92 * fem.size.width,
-                      height: 0.07 * fem.size.height,
+                      height: 0.06 * fem.size.height,
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(17),
@@ -208,12 +206,13 @@ class _Homepage2State extends State<Homepage2> {
                             }
                           },
                           style: TextStyle(
+                            overflow: TextOverflow.fade,
                               color: Color.fromARGB(255, 249, 247, 247)),
                           keyboardType: TextInputType.url,
                           maxLines: 1,
                           decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.only(bottom: 40, left: 10),
+                                EdgeInsets.only(bottom: 10, left: 10),
                             isCollapsed: false,
                             hintText: 'Enter url',
                             border: OutlineInputBorder(
@@ -241,7 +240,7 @@ class _Homepage2State extends State<Homepage2> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               'History',
                               style: TextStyle(

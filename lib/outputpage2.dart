@@ -185,8 +185,7 @@ class _Outputpage2State extends State<Outputpage2> {
                               builder: (context, snapshot) {
                                 dbdata = snapshot.data.toString();
 
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
+                                if (snapshot.connectionState == ConnectionState.done) {
                                   return TextField(
                                     readOnly: true,
                                     style: TextStyle(
