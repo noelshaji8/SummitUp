@@ -11,7 +11,7 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   Future<bool> _onWillPop() async {
-    return false; //<-- SEE HERE
+    return true; //<-- SEE HERE
   }
   final _auth = FirebaseAuth.instance;
   late String email;
@@ -46,16 +46,17 @@ class _SignupState extends State<Signup> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color.fromARGB(102, 152, 207, 231),
-                      Color.fromARGB(153, 151, 207, 231),
-                      Color.fromARGB(204, 155, 211, 236),
-                      Color.fromARGB(255, 151, 205, 228),
+                      Color(0xff3d0d35),
+                          Color(0xcc3d0d35),
+                          Color(0xcc3d0d35),
+                          Color(0xcc3d0d35),
                     ],
                   )),
               child: Column(
                 children: [
+                  SizedBox(height: 120),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+                    
                     child: const Text(
                       "Signup",
                       style: TextStyle(
@@ -65,82 +66,66 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                   ),
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(10, 80, 0, 20),
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      child: TextField(
-                        onChanged: (value) {
-                          name = value;
-                        },
-                        cursorColor: Colors.black,
-                        decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          filled: true,
-                          hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Name",
-                          fillColor: Colors.white70,
-                        ),
-                      )),
-                  Container(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      child: TextField(
-                        onChanged: (value) {
-                          email = value;
-                        },
-                        cursorColor: Colors.black,
-                        decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          filled: true,
-                          hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Email",
-                          fillColor: Colors.white70,
-                        ),
-                      )),
+                 SizedBox(height: 90,),
+                 Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 5, offset: Offset(0, 2))
+              ]),
+          height: 52,
+          child: TextField(
+            onChanged: (value) {
+              email = value;
+            },
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(
+                  Icons.email,
+                  color: Color(0xcc3d0d35),
+                ),
+                hintText: 'Email',
+                hintStyle: TextStyle(color: Colors.black38)),
+          ),
+        ),
+        SizedBox(height: 30),
                  
                   Container(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      child: TextField(
-                        onChanged: (value) {
-                          password = value;
-                        },
-                        cursorColor: Colors.black,
-                        obscureText: true,
-                        decoration: new InputDecoration(
-                          border: new OutlineInputBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.brown.shade900)),
-                          filled: true,
-                          hintStyle: new TextStyle(color: Colors.grey[800]),
-                          hintText: "Password",
-                          fillColor: Colors.white70,
-                        ),
-                      )),
-                  
-                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26, blurRadius: 5, offset: Offset(0, 2))
+              ]),
+          height: 52,
+          child: TextField(
+            onChanged: (value) {
+              password = value;
+            },
+            obscureText: true,
+            style: TextStyle(color: Colors.black87),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(
+                  Icons.lock,
+                  color: Color(0xcc3d0d35),
+                ),
+                hintText: 'Password',
+                hintStyle: TextStyle(color: Colors.black38)),
+          ),
+        ),
+                  SizedBox(height: 60) ,Container(
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: MaterialButton(
                       height: 50,
@@ -163,11 +148,12 @@ class _SignupState extends State<Signup> {
                           borderRadius: BorderRadius.circular(10)),
                       child: const Text("Submit",
                           style: TextStyle(
-                              color: Color.fromARGB(102, 0, 0, 0),
-                              fontSize: 16,
+                              color: Color(0xcc3d0d35),
+                              fontSize: 18,
                               fontWeight: FontWeight.bold)),
                     ),
                   ),
+                  
                 ],
               ),
             ),

@@ -7,20 +7,28 @@ import 'dart:io';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:summitup/homepage2.dart';
 
 class Outputpage2 extends StatefulWidget {
-  
-  String response = "";
+  bool isTextSelected;
+  bool isURLSelected;
+  bool isFileSelected;
+  String input;
+  // String response = "";
   double currentSliderValue;
-  //late String text;
+  late String? text;
   dynamic selectedfile;
-  //late String url;
+  late String? url;
   Outputpage2({
     super.key,
-    required this.selectedfile,
-    //required this.text,
+    required this.input,
+    required this.isFileSelected,
+    required this.isTextSelected,
+    required this.isURLSelected,
+    // this.selectedfile,
+    // this.text,
+    // this.url,
     required this.currentSliderValue,
-    //required this.url,
   });
 
   @override
@@ -28,16 +36,17 @@ class Outputpage2 extends StatefulWidget {
 }
 
 class _Outputpage2State extends State<Outputpage2> {
-  
   late String dbdata;
-  String user = FirebaseAuth.instance.currentUser!.email!;
+
   bool showSpinner = false;
+  String user = FirebaseAuth.instance.currentUser!.uid;
   late DatabaseReference dbRef;
   late Future newData;
   void initState() {
     // TODO: implement initState
     super.initState();
-    dbRef = FirebaseDatabase.instance.ref().child(user);
+
+    dbRef = FirebaseDatabase.instance.ref('posts/$user');
 
     newData = sum();
   }
@@ -47,7 +56,6 @@ class _Outputpage2State extends State<Outputpage2> {
       showSpinner = true;
     });
     dynamic currentS = widget.currentSliderValue.toInt();
-    String filepath = widget.selectedfile;
 
     Uri url = Uri.parse('https://api.meaningcloud.com/summarization-1.0');
 
@@ -55,12 +63,18 @@ class _Outputpage2State extends State<Outputpage2> {
 
     request.fields['key'] = '0c531a73c44da7b8dd4de50ed56c6462';
     request.fields['lang'] = 'auto';
-    //request.fields['txt'] = widget.text;
-    //request.fields['url'] = widget.url;
-    request.files.add(await http.MultipartFile.fromPath(
-      'doc',
-      await filepath,
-    ));
+
+    if (widget.isTextSelected == true) {
+      request.fields['txt'] = widget.input;
+    } else if (widget.isFileSelected == true) {
+      request.files.add(await http.MultipartFile.fromPath(
+        'doc',
+        widget.input,
+      ));
+    } else if (widget.isURLSelected == true) {
+      request.fields['url'] = widget.input;
+    }
+
     request.fields['limit'] = '$currentS';
 
     var response = await request.send();
@@ -86,7 +100,6 @@ class _Outputpage2State extends State<Outputpage2> {
   @override
   Widget build(BuildContext context) {
     var fem = MediaQuery.of(context);
-    
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -101,34 +114,43 @@ class _Outputpage2State extends State<Outputpage2> {
             alignment: Alignment.center,
             children: [
               Positioned(
-                // rectangle2MKK (2:3)
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: fem.size.width,
-                  height: 0.17 * fem.size.height,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 81, 20, 70),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(40),
-                      bottomLeft: Radius.circular(40),
+                    // rectangle2MKK (2:3)
+                    right: fem.size.width/81-fem.size.width,
+                    bottom: fem.size.height-120,
+                    child: Container(
+                      width: fem.size.width*3,
+                      height: fem.size.height,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xff3d0d35),
+                      ),
                     ),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "SummitUp",
-                      style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(226, 237, 230, 230)),
+                  Positioned(
+                    left: fem.size.width /3.5,
+                    top: fem.size.height*0.065,
+                    child: const Center(
+                      child: Text(
+                        "SummitUp",
+                        style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(226, 237, 230, 230)),
+                      ),
                     ),
                   ),
-                ),
-              ),
               Positioned(
                 left: 0.03 * fem.size.width,
                 top: 0.05 * fem.size.height,
                 child: BackButton(
+                  onPressed: () {
+
+                    
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Homepage2()));
+
+                  },
                   color: Color.fromARGB(255, 231, 226, 226),
                 ),
               ),
@@ -172,23 +194,30 @@ class _Outputpage2State extends State<Outputpage2> {
                                             Color.fromARGB(255, 233, 227, 227)),
                                     maxLines: 16,
                                     decoration: InputDecoration(
-
                                       contentPadding: EdgeInsets.all(10),
-                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(17)),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(17)),
                                     ),
                                     controller: TextEditingController(
                                         text: snapshot.data.toString()),
                                   );
                                 } else {
-                                  return const Align(child: CircularProgressIndicator(),);
-                                     
-                                    
-                                  
-
-                                  //                          showDialog(context: context, builder: (context) {
-                                  //   return Center(child: CircularProgressIndicator());
-                                  // },);
-                                  //return Align(child: CircularProgressIndicator(),);
+                                  return TextField(
+                                    readOnly: true,
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 233, 227, 227)),
+                                    maxLines: 16,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(10),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(17)),
+                                    ),
+                                    controller: TextEditingController(
+                                        text: 'Loading...'),
+                                  );
                                 }
                               },
                             ),
@@ -203,12 +232,11 @@ class _Outputpage2State extends State<Outputpage2> {
                   height: 50,
                   minWidth: 120,
                   onPressed: () {
-                    Map<String, dynamic> sumtext = {
-                      'txt': dbdata,
-                      'value': widget.currentSliderValue,
-                      'uid': FirebaseAuth.instance.currentUser!.uid,
+                    Map<String, dynamic> posts = {
+                      'text': dbdata,
                     };
-                    dbRef.push().set(sumtext);
+
+                    dbRef.push().set(posts);
                   },
                   color: Color(0xff3d0d35),
                   shape: RoundedRectangleBorder(

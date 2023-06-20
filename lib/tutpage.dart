@@ -96,7 +96,7 @@ class _TutpageState extends State<Tutpage> {
               top: 0.07 * fem.size.height,
               child: Align(
                 child: SizedBox(
-                  width: 140,
+                  width: 160,
                   height: 40,
                   child: const Text(
                     'SummitUp',

@@ -4,96 +4,29 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class History extends StatefulWidget {
-  
-  const History({super.key});
+  History({super.key});
 
   @override
   State<History> createState() => _HistoryState();
 }
 
 class _HistoryState extends State<History> {
+  late Query dbRef;
+  String user = FirebaseAuth.instance.currentUser!.uid;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dbRef = FirebaseDatabase.instance.ref().child('posts/$user');
+  }
 
-
-//   void _readData() {
-//     _databaseReference.once().then((DataSnapshot snapshot) {
-//       if (snapshot.value != null) {
-//         Map<dynamic, dynamic> values = snapshot.value;
-//         values.forEach((key, values) {
-//           print('Post ID: $key');
-//           print('Text: ${values['text']}');
-//           print('User ID: ${values['userID']}');
-//         });
-//       } else {
-//         print('No data available');
-//       }
-//     });
-//   }
-
-//   void _writeData() {
-//     DatabaseReference user1Reference = _databaseReference.child('User1');
-//     DatabaseReference user2Reference = _databaseReference.child('User2');
-
-//     user1Reference.push().set({
-//       'text': 'New note for User1',
-//       'userID': 'User1',
-//     });
-
-//     user2Reference.push().set({
-//       'text': 'New note for User2',
-//       'userID': 'User2',
-//     });
-//   }
-// }
-
-
-
-//   void _readData() {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     if (user != null) {
-//       DatabaseReference userReference = _databaseReference.child('posts').child(user.uid);
-      
-//       userReference.once().then((DataSnapshot snapshot) {
-//         if (snapshot.value != null) {
-//           Map<dynamic, dynamic> values = snapshot.value;
-//           values.forEach((key, values) {
-//             print('Post ID: $key');
-//             print('Text: ${values['text']}');
-//             print('User ID: ${values['userID']}');
-//           });
-//         } else {
-//           print('No data available');
-//         }
-//       });
-//     }
-//   }
-
-//   void _writeData() {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     if (user != null) {
-//       DatabaseReference userReference = _databaseReference.child('posts').child(user.uid);
-
-//       userReference.push().set({
-//         'text': 'New note for ${user.uid}',
-//         'userID': user.uid,
-//       });
-//     }
-//   }
-// }
-  
-  
-
-
-  Query dbRef = FirebaseDatabase.instance.ref().child(FirebaseAuth.instance.currentUser!.email!);
-  //Query dbRef = FirebaseDatabase.instance.ref().child(user);
-  //DatabaseReference reference = FirebaseDatabase.instance.ref().child('Students');
-  
-  Widget listItem({required Map sumtext}) {
+  Widget listItem({required Map posts}) {
     var fem = MediaQuery.of(context);
-    
+
     return SizedBox(
       width: 0.92 * fem.size.width,
-      height: 0.20 * fem.size.height,
+      height: 0.3 * fem.size.height,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
@@ -102,10 +35,12 @@ class _HistoryState extends State<History> {
         ),
         child: TextField(
           readOnly: true,
-          controller: TextEditingController(text: sumtext['txt']),
+          controller: TextEditingController(text: posts['text']),
           style: TextStyle(color: Color.fromARGB(255, 245, 243, 243)),
           maxLines: 15,
           decoration: InputDecoration(
+            
+            contentPadding: EdgeInsets.all(15),
             border: OutlineInputBorder(
                 gapPadding: 1,
                 borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -115,12 +50,8 @@ class _HistoryState extends State<History> {
     );
   }
 
-  
-  
-
   @override
   Widget build(BuildContext context) {
-    
     var fem = MediaQuery.of(context);
     return Scaffold(
       body: SingleChildScrollView(
@@ -135,30 +66,31 @@ class _HistoryState extends State<History> {
             alignment: Alignment.center,
             children: [
               Positioned(
-                // rectangle2MKK (2:3)
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: fem.size.width,
-                  height: 0.17 * fem.size.height,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 81, 20, 70),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(40),
-                      bottomLeft: Radius.circular(40),
+                    // rectangle2MKK (2:3)
+                    right: fem.size.width/81-fem.size.width,
+                    bottom: fem.size.height-120,
+                    child: Container(
+                      width: fem.size.width*3,
+                      height: fem.size.height,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xff3d0d35),
+                      ),
                     ),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "History",
-                      style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(226, 237, 230, 230)),
+                  Positioned(
+                    left: fem.size.width /2.9,
+                    top: fem.size.height*0.065,
+                    child: const Center(
+                      child: Text(
+                        "History",
+                        style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(226, 237, 230, 230)),
+                      ),
                     ),
                   ),
-                ),
-              ),
               Positioned(
                 left: 0.03 * fem.size.width,
                 top: 0.05 * fem.size.height,
@@ -168,20 +100,20 @@ class _HistoryState extends State<History> {
               ),
               Positioned(
                 // rectangle3jDP (2:4)
-                left: 0.04 * fem.size.width,
-                top: 0.20 * fem.size.height,
+                left: 0.025 * fem.size.width,
+                top: 0.19 * fem.size.height,
                 child: SingleChildScrollView(
                   child: Container(
-                    width: 0.92 * fem.size.width,
-                    height: 0.76 * fem.size.height,
+                    width: 0.95 * fem.size.width,
+                    height: 0.8 * fem.size.height,
                     child: FirebaseAnimatedList(
                       query: dbRef,
                       itemBuilder: (BuildContext context, DataSnapshot snapshot,
                           Animation<double> animation, int index) {
-                        Map sumtext = snapshot.value as Map;
-                        sumtext['key'] = snapshot.key;
+                        Map posts = snapshot.value as Map;
+                        print(posts['key']);
 
-                        return listItem(sumtext: sumtext);
+                        return listItem(posts: posts);
                       },
                     ),
                   ),

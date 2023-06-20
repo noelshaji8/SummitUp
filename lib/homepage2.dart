@@ -23,12 +23,16 @@ class _Homepage2State extends State<Homepage2> {
     return false; //<-- SEE HERE
   }
 
-  //late String text;
-  //late String url;
+  late String text;
+  late String url;
   dynamic selectedfile;
+  dynamic input;
+  bool isTextSelected = false;
+  bool isURLSelected = false;
+  bool isFileSelected = false;
 
   String? filebttext = 'Files';
-  //late DatabaseReference dbRef;
+  late DatabaseReference dbRef;
 
   final _auth = FirebaseAuth.instance;
   late User loggedInUser;
@@ -37,7 +41,10 @@ class _Homepage2State extends State<Homepage2> {
   void initState() {
     super.initState();
     getCurrentUser();
-    //dbRef = FirebaseDatabase.instance.ref().child('Students');
+    isTextSelected = false;
+    isURLSelected = false;
+    isFileSelected = false;
+    input = '';
   }
 
   void getCurrentUser() async {
@@ -62,7 +69,7 @@ class _Homepage2State extends State<Homepage2> {
       print(filepath);
 
       setState(() {
-        selectedfile = filepath;
+        input = filepath;
         filebttext = file.name;
       });
     } else {
@@ -94,32 +101,33 @@ class _Homepage2State extends State<Homepage2> {
                 children: [
                   Positioned(
                     // rectangle2MKK (2:3)
-                    left: 0,
-                    top: 0,
+                    right: fem.size.width/81-fem.size.width,
+                    bottom: fem.size.height-120,
                     child: Container(
-                      width: fem.size.width,
-                      height: 0.17 * fem.size.height,
+                      width: fem.size.width*3,
+                      height: fem.size.height,
                       decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 81, 20, 70),
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(40),
-                          bottomLeft: Radius.circular(40),
-                        ),
+                        shape: BoxShape.circle,
+                        color: Color(0xff3d0d35),
                       ),
-                      child: const Center(
-                        child: Text(
-                          "SummitUp",
-                          style: TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(226, 237, 230, 230)),
-                        ),
+                    ),
+                  ),
+                  Positioned(
+                    left: fem.size.width /3.5,
+                    top: fem.size.height*0.065,
+                    child: const Center(
+                      child: Text(
+                        "SummitUp",
+                        style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(226, 237, 230, 230)),
                       ),
                     ),
                   ),
                   Positioned(
                     right: 0.03 * fem.size.width,
-                    top: 0.05 * fem.size.height,
+                    top: 0.055 * fem.size.height,
                     child: IconButton(
                       onPressed: () {
                         _auth.signOut();
@@ -133,7 +141,7 @@ class _Homepage2State extends State<Homepage2> {
                   Positioned(
                     // rectangle3jDP (2:4)
                     left: 0.04 * fem.size.width,
-                    top: 0.20 * fem.size.height,
+                    top: 0.21 * fem.size.height,
                     child: SizedBox(
                       width: 0.92 * fem.size.width,
                       height: 0.27 * fem.size.height,
@@ -154,15 +162,22 @@ class _Homepage2State extends State<Homepage2> {
                               color: Color(0xff13191b),
                             ),
                             child: TextField(
-                              // onChanged: (value) {
-                              //   text = value;
-                              // },
+                              enabled: !isURLSelected && !isFileSelected,
+                              onChanged: (value) {
+                                setState(() {
+                                  isTextSelected = value.isNotEmpty;
+                                  if (value.isNotEmpty) {
+                                    input = value;
+                                  }
+                                });
+                              },
                               style: TextStyle(
                                   color: Color.fromARGB(255, 245, 243, 243)),
                               maxLines: 15,
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(12),
                                 hintText: 'Enter text',
+                                hintStyle:TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(17)),
                               ),
@@ -174,7 +189,7 @@ class _Homepage2State extends State<Homepage2> {
                   ),
                   Positioned(
                     left: 0.04 * fem.size.width,
-                    top: 0.5 * fem.size.height,
+                    top: 0.52 * fem.size.height,
                     child: SizedBox(
                       width: 0.92 * fem.size.width,
                       height: 0.07 * fem.size.height,
@@ -183,16 +198,22 @@ class _Homepage2State extends State<Homepage2> {
                             borderRadius: BorderRadius.circular(17),
                             color: Color.fromARGB(225, 106, 102, 102)),
                         child: TextField(
-                          // onChanged: (value) {
-                          //   url = value;
-                          // },
+                          enabled: !isTextSelected && !isFileSelected,
+                          onChanged: (value) {
+                            setState(() {
+                              isURLSelected = value.isNotEmpty;
+                            });
+                            if (value.isNotEmpty) {
+                              input = value;
+                            }
+                          },
                           style: TextStyle(
-                              color: Color.fromARGB(255, 245, 243, 243)),
+                              color: Color.fromARGB(255, 249, 247, 247)),
                           keyboardType: TextInputType.url,
                           maxLines: 1,
                           decoration: InputDecoration(
                             contentPadding:
-                                EdgeInsets.only(bottom: 3, left: 10),
+                                EdgeInsets.only(bottom: 40, left: 10),
                             isCollapsed: false,
                             hintText: 'Enter url',
                             border: OutlineInputBorder(
@@ -203,7 +224,7 @@ class _Homepage2State extends State<Homepage2> {
                     ),
                   ),
                   Positioned(
-                    bottom: fem.size.height * 0.31,
+                    bottom: fem.size.height * 0.28,
                     left: (fem.size.width / 2) * 0.165,
                     child: Row(
                       //mainAxisAlignment: MainAxisAlignment.center,
@@ -224,8 +245,8 @@ class _Homepage2State extends State<Homepage2> {
                             child: Text(
                               'History',
                               style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                 color: Color(0xffffffff),
                               ),
                             ),
@@ -236,41 +257,41 @@ class _Homepage2State extends State<Homepage2> {
                           width: 0.38 * fem.size.width,
                           height: 0.088 * fem.size.height,
                           child: MaterialButton(
-                          color: Color(0xff3d0d35),
-                          onPressed: () {
-                            pickFile();
-                          },
-                          minWidth: 0.38 * fem.size.width,
-                          height: 0.088 * fem.size.height,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                              
-                            child: Text(
-                              
-                              '$filebttext',
-                              maxLines: 1,
-                              
-                              overflow: TextOverflow.fade,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xffffffff),
+                            color: Color(0xff3d0d35),
+                            onPressed: () {
+                              pickFile();
+                              setState(() {
+                                isFileSelected = input != null;
+                              });
+                            },
+                            minWidth: 0.38 * fem.size.width,
+                            height: 0.088 * fem.size.height,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '$filebttext',
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xffffffff),
+                                ),
                               ),
                             ),
                           ),
-                        ),)
-                        
+                        )
                       ],
                     ),
                   ),
                   Positioned(
                     left: fem.size.width * 0.03,
-                    bottom: fem.size.height * 0.19,
+                    bottom: fem.size.height * 0.18,
                     child: Theme(
                       data: ThemeData(
-                        colorSchemeSeed: const Color(0xff6750a4),
+                        colorSchemeSeed: Color(0xff3d0d35),
                         useMaterial3: true,
                       ),
                       child: Container(
@@ -295,39 +316,24 @@ class _Homepage2State extends State<Homepage2> {
                       height: 50,
                       minWidth: 120,
                       onPressed: () {
+                        //                       bool isTextSelected = false;
+                        // bool isURLSelected = false;
+                        // bool isFileSelected = false;
                         // if (selectedfile == null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
                               return Outputpage2(
-                                  selectedfile: selectedfile,
-                                  //url: url,
-                                  //text: text,
+                                  isTextSelected: isTextSelected,
+                                  isURLSelected: isURLSelected,
+                                  isFileSelected: isFileSelected,
+                                  input: input,
                                   currentSliderValue:
                                       widget.currentSliderValue);
                             },
                           ),
                         );
-                        // } else {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) {
-                        //         return Outputpage2(
-                        //             selectedfile: selectedfile,
-                        //             currentSliderValue:
-                        //                 widget.currentSliderValue);
-                        //       },
-                        //     ),
-                        //   );
-                        // }
-
-                        // Map<String, dynamic> students = {
-                        // 'txt': text,
-                        // 'value': widget.currentSliderValue,
-                        // };
-                        // dbRef.push().set(students);
                       },
                       color: Color(0xff3d0d35),
                       shape: RoundedRectangleBorder(

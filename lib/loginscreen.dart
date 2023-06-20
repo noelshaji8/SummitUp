@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 contentPadding: EdgeInsets.only(top: 14),
                 prefixIcon: Icon(
                   Icons.email,
-                  color: Color.fromARGB(204, 146, 198, 223),
+                  color: Color(0xcc3d0d35),
                 ),
                 hintText: 'Email',
                 hintStyle: TextStyle(color: Colors.black38)),
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 contentPadding: EdgeInsets.only(top: 14),
                 prefixIcon: Icon(
                   Icons.lock,
-                  color: Color.fromARGB(204, 146, 198, 223),
+                  color: Color(0xcc3d0d35),
                 ),
                 hintText: 'Password',
                 hintStyle: TextStyle(color: Colors.black38)),
@@ -130,8 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: const Text("Submit",
             style: TextStyle(
-                color: Color.fromARGB(102, 61, 101, 118),
-                fontSize: 16,
+                color: Color(0xcc3d0d35),
+                fontSize: 18,
                 fontWeight: FontWeight.bold)),
       ),
     );
@@ -179,10 +179,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color.fromARGB(102, 152, 207, 231),
-                          Color.fromARGB(153, 151, 207, 231),
-                          Color.fromARGB(204, 155, 211, 236),
-                          Color.fromARGB(255, 151, 205, 228),
+                          Color(0xff3d0d35),
+                          Color(0xcc3d0d35),
+                          Color(0xcc3d0d35),
+                          Color(0xcc3d0d35),
+                          // Color.fromARGB(102, 152, 207, 231),
+                          // Color.fromARGB(153, 151, 207, 231),
+                          // Color.fromARGB(204, 155, 211, 236),
+                          // Color.fromARGB(255, 151, 205, 228),
                         ],
                       ),
                     ),
@@ -205,6 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           buildPassword(),
                           //buildForgotP(),
                           //buildRemember(),
+                           
                           submitBt(),
                           newaccBt()
                         ],

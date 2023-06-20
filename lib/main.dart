@@ -15,7 +15,6 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
-  
 
   runApp(MyApp());
   FlutterNativeSplash.remove();
@@ -34,7 +33,11 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         builder: (context, child) {
           return MaterialApp(
-            initialRoute: '/1',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              fontFamily: 'Questrial',
+            ),
+            initialRoute: '/2',
             routes: {
               "/1": (context) => Tutpage(),
               "/2": (context) => LoginScreen(),
