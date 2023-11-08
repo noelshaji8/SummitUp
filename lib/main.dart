@@ -3,9 +3,9 @@ import 'package:summitup/homepage2.dart';
 import 'history.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'loginscreen.dart';
-import 'forgotp.dart';
+
 import 'signup.dart';
-import 'tutpage.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'outputpage2.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              fontFamily: 'Questrial',
+              fontFamily: 'Poppins',
             ),
             initialRoute: '/2',
             routes: {
-              "/1": (context) => Tutpage(),
+              
               "/2": (context) => LoginScreen(),
               "/3": (context) => Signup(),
               "/4": (context) => Homepage2(),

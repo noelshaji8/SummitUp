@@ -108,6 +108,10 @@ flutter:
       fonts:
         - asset: fonts\Questrial-Regular.ttf
         
+    - family: Poppins
+      fonts:
+        - asset: fonts\Poppins-Regular.ttf
+        
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

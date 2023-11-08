@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:summitup/loginscreen.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:open_file/open_file.dart';
-
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:summitup/outputpage2.dart';
 
@@ -77,8 +70,6 @@ class _Homepage2State extends State<Homepage2> {
     }
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     var fem = MediaQuery.of(context);
@@ -99,10 +90,10 @@ class _Homepage2State extends State<Homepage2> {
                 children: [
                   Positioned(
                     // rectangle2MKK (2:3)
-                    right: fem.size.width/81-fem.size.width,
-                    bottom: fem.size.height-120,
+                    right: fem.size.width / 81 - fem.size.width,
+                    bottom: fem.size.height - 120,
                     child: Container(
-                      width: fem.size.width*3,
+                      width: fem.size.width * 3,
                       height: fem.size.height,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -111,8 +102,8 @@ class _Homepage2State extends State<Homepage2> {
                     ),
                   ),
                   Positioned(
-                    left: fem.size.width /3.5,
-                    top: fem.size.height*0.065,
+                    left: fem.size.width / 3.5,
+                    top: fem.size.height * 0.065,
                     child: const Center(
                       child: Text(
                         "SummitUp",
@@ -175,7 +166,7 @@ class _Homepage2State extends State<Homepage2> {
                               decoration: InputDecoration(
                                 contentPadding: EdgeInsets.all(12),
                                 hintText: 'Enter text',
-                                hintStyle:TextStyle(color: Colors.grey),
+                                hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(17)),
                               ),
@@ -206,7 +197,7 @@ class _Homepage2State extends State<Homepage2> {
                             }
                           },
                           style: TextStyle(
-                            overflow: TextOverflow.fade,
+                              overflow: TextOverflow.fade,
                               color: Color.fromARGB(255, 249, 247, 247)),
                           keyboardType: TextInputType.url,
                           maxLines: 1,
@@ -315,10 +306,6 @@ class _Homepage2State extends State<Homepage2> {
                       height: 50,
                       minWidth: 120,
                       onPressed: () {
-                        //                       bool isTextSelected = false;
-                        // bool isURLSelected = false;
-                        // bool isFileSelected = false;
-                        // if (selectedfile == null) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(

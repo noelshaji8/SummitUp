@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:summitup/forgotp.dart';
-import 'package:summitup/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  //static const String id = 'loginscreen';
+  
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -143,11 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () => {
-          /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const Signup(),
-              ))*/
+          
           Navigator.pushNamed(context, '/3')
         },
         child: Text(
@@ -183,10 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Color(0xcc3d0d35),
                           Color(0xcc3d0d35),
                           Color(0xcc3d0d35),
-                          // Color.fromARGB(102, 152, 207, 231),
-                          // Color.fromARGB(153, 151, 207, 231),
-                          // Color.fromARGB(204, 155, 211, 236),
-                          // Color.fromARGB(255, 151, 205, 228),
+                          
                         ],
                       ),
                     ),
@@ -207,9 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           buildEmail(),
                           SizedBox(height: 20),
                           buildPassword(),
-                          //buildForgotP(),
-                          //buildRemember(),
-                           
+                                                   
                           submitBt(),
                           newaccBt()
                         ],
